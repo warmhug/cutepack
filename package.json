@@ -1,0 +1,26 @@
+{
+  "name": "cutepack",
+  "version": "0.0.1",
+  "description": "a simple compression and package module",
+  "main": "main.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "uglify-js": "~1.3.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hualei5280/cutepack.git"
+  },
+  "keywords": [
+    "compress",
+    "package"
+  ],
+  "author": "hualei",
+  "license": "BSD"
+}
