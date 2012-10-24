@@ -1,0 +1,34 @@
+
+
+主要操作流程：
+文件修改→git add . →git commit -m 'xxx'→git push→
+文件删除→git add -A→git commit -m 'xxx'→git push→
+
+从github上拉取repo：
+git pull git@github.com:warmhug/cutepack.git
+pull指令其实包含了fetch(將变更复制回來)以及merge(合并)操作
+
+
+查看变化：git diff  |  git diff --cached
+帮助：git help xx
+
+git init
+
+git status 当前状态
+git log 查看历史记录
+git diff [version1] [version2]  查看版本差异
+
+
+git add
+git add -A  它会把我们未通过 git rm 删除的文件全部stage
+git rm filename
+git commit  (git commit -m 'xxx')
+git commit -a  大致是删除的文件会自动标记, 但对新建文件就不行
+git push 
+(git push origin master：
+第一次将所有本地内容push到remote repo上，并建立remote master branch)
+
+git branch 操作分支
+git clone [path] 
+
+git config 配置个人信息
