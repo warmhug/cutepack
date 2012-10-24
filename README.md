@@ -12,4 +12,4 @@ cutepack
 - 使用
 > PS: 这里的test目录并非单元测试文件。
 
- > 直接把源码down下来，依据/test目录下的build.js，修改‘paths’数组为自己相应的需要打包的文件路径（暂时只支持同一磁盘文件，相对路径形式，非http等线上文件），命令行运行node build.js，打包完成，生成build文件。    
+ > 直接把源码down下来，依据/test目录下的build.js，修改‘paths’数组为自己相应的需要打包的文件路径（暂时只支持同一磁盘文件，相对路径形式，非http等线上文件），命令行运行node build.js，打包完成，生成build文件。    text
