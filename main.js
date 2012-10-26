@@ -20,12 +20,28 @@ _util.getRoot = function () {
     //console.log('Current directory: ' + process.cwd());
     return process.cwd();
 }
+_util.checkPath = function (path) {
+    var arr = path.split(/\.js/),arrlen=arr.length, flag = '';
+    console.log(arr.length);
+    if (arr[0] === '') return;
+    if (arrlen > 1 && arr[1] !== '') {
+        switch (arr[1]) {
+            case '-n':
+                flag = 'none';
+        }
+    }
+    return {
+        path: arr[0] + '.js',
+        flag: flag
+    }
+
+}
 _util.pathParse = function (paths) {
-    var root = _util.getRoot(),
-        single = '',
-        realpaths = [];
+    var root = _util.getRoot(), pathobj = '';
     for (var i = 0; i < paths.length; i++) {
-        single = realpaths[i] = path.join(root, path.normalize(paths[i]));
+        single = path.join(root, path.normalize(paths[i]));
+        var pathobj = _util.checkPath(single);
+
         if (fs.existsSync(single)) {
             compressCode += _util.compress(single) + '\n';
         } else {
