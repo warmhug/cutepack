@@ -22,12 +22,12 @@ _util.getRoot = function () {
 }
 _util.checkPath = function (path) {
     var arr = path.split(/\.js/),arrlen=arr.length, flag = '';
-    console.log(arr.length);
+    //console.log(arr.length);
     if (arr[0] === '') return;
     if (arrlen > 1 && arr[1] !== '') {
         switch (arr[1]) {
             case '-n':
-                flag = 'none';
+                flag = '-n';
         }
     }
     return {
@@ -37,13 +37,18 @@ _util.checkPath = function (path) {
 
 }
 _util.pathParse = function (paths) {
-    var root = _util.getRoot(), pathobj = '';
+    var root = _util.getRoot(), pathobj = '', pat = '', flag = '';
     for (var i = 0; i < paths.length; i++) {
-        single = path.join(root, path.normalize(paths[i]));
-        var pathobj = _util.checkPath(single);
-
-        if (fs.existsSync(single)) {
-            compressCode += _util.compress(single) + '\n';
+        pathobj = _util.checkPath(path.join(root, path.normalize(paths[i])));
+        pat = pathobj.path;
+        flag = pathobj.flag;
+        console.log(pathobj);
+        if (pat && fs.existsSync(pat)) {
+            if (flag && flag === '-n') {
+                compressCode += fs.readFileSync(pat, 'utf8') + '\n';
+            }else {
+                compressCode += _util.compress(pat) + '\n';
+            }
         } else {
             continue;
         }
@@ -60,9 +65,6 @@ _util.compress = function (file) {
     }
 }
 _util.createTarget = function () {
-    //var now=
-    //console.log(compressCode);
-    //console.log(Date.now());
     var name = '__build_' + Date.now() + '.js';
     fs.writeFile('./' + name, compressCode, function (err) {
         if (err) throw err;
