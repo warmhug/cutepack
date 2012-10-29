@@ -11,7 +11,7 @@ _util.uglify = function (orig_code, options) {
     var pro = uglify.uglify;
 
     var ast = jsp.parse(orig_code, options.strict_semicolons); // parse code and get the initial AST
-    ast = pro.ast_mangle(ast, options.mangle_options); // get a new AST with mangled names
+    ast = pro.ast_mangle(ast, options.mangle_options); // get a new AST with mangled names(去掉，则不修改变量名)
     ast = pro.ast_squeeze(ast, options.squeeze_options); // get an AST with compression optimizations
     var final_code = pro.gen_code(ast, options.gen_options); // compressed code here
     return final_code;
@@ -36,7 +36,7 @@ _util.checkPath = function (path) {
     }
 
 }
-_util.pathParse = function (paths) {
+_util.pathParse = function (paths, options) {
     var root = _util.getRoot(), pathobj = '', pat = '', flag = '';
     for (var i = 0; i < paths.length; i++) {
         pathobj = _util.checkPath(path.join(root, path.normalize(paths[i])));
@@ -47,7 +47,7 @@ _util.pathParse = function (paths) {
             if (flag && flag === '-n') {
                 compressCode += fs.readFileSync(pat, 'utf8') + '\n';
             }else {
-                compressCode += _util.compress(pat) + '\n';
+                compressCode += _util.compress(pat, options) + '\n';
             }
         } else {
             continue;
@@ -55,11 +55,11 @@ _util.pathParse = function (paths) {
     }
     _util.createTarget();
 }
-_util.compress = function (file) {
+_util.compress = function (file, options) {
     var data = fs.readFileSync(file, 'utf8'), code = '';
     //console.log(data);
     if (data) {
-        code = _util.uglify(data);
+        code = _util.uglify(data, options);
         //console.log(code);
         return code;
     }
@@ -72,9 +72,9 @@ _util.createTarget = function () {
     });
 }
 
-function _build(paths) {
+function _build(paths, options) {
     if (!util.isArray(paths)) return;
     //
-    _util.pathParse(paths);
+    _util.pathParse(paths, options);
 }
 exports.build = _build;

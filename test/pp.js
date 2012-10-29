@@ -1,0 +1,1 @@
+function test(){var e,t,n="me";console.log(n),console.log("9999999999999999999"),e=function(){console.log("dsfd")},t="dfdsf"}console.log("================================"),test();
