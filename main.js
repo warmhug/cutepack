@@ -42,7 +42,7 @@ _util.pathParse = function (paths, options) {
         pathobj = _util.checkPath(path.join(root, path.normalize(paths[i])));
         pat = pathobj.path;
         flag = pathobj.flag;
-        console.log(pathobj);
+        //console.log(pathobj);
         if (pat && fs.existsSync(pat)) {
             if (flag && flag === '-n') {
                 compressCode += fs.readFileSync(pat, 'utf8') + '\n';

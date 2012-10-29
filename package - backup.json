@@ -6,6 +6,9 @@
   "directories": {
     "test": "test"
   },
+  "dependencies": {
+    "uglify-js": "~1.3.4"
+  },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

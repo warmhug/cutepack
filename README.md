@@ -7,7 +7,7 @@ cutepack
 > 把多个JS文件，压缩并依次打包进一个JS文件，压缩采用uglify-js引擎，多个模块文件打包到一个文件里，减少http请求消耗 :）
 
 - **安装**
-> npm install cutepack -g （未发布，暂不可用 -^-）
+> npm install cutepack -g 
 
 - 使用
  > 直接把源码down下来，依据/test目录下的build.js，修改‘paths’数组为自己相应的需要打包的文件路径，命令行运行node build.js，打包完成，生成build文件。  
