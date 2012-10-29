@@ -10,7 +10,9 @@ cutepack
 > npm install cutepack -g 
 
 - 使用
- > 直接把源码down下来，依据/test目录下的build.js，修改‘paths’数组为自己相应的需要打包的文件路径，命令行运行node build.js，打包完成，生成build文件。  
+ > 配置好build.js文件，命令行运行 cutepack build.js
+
+ > 下载源码使用方法：直接把源码down下来，依据/test目录下的build.js，修改‘paths’数组为自己相应的需要打包的文件路径，命令行运行node build.js，打包完成，生成build文件。  
 
 - 局限性
 
