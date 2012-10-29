@@ -2,7 +2,7 @@
 var util = require('util'),
     fs = require('fs'),
     path = require('path'),
-    uglify = require('uglify-js');
+    uglify = require('./lib/uglify-js/uglify-js');
 
 var _util = {}, compressCode = '';
 _util.uglify = function (orig_code, options) {
