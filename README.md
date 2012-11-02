@@ -7,12 +7,38 @@ cutepack
 > 把多个JS文件，压缩并依次打包进一个JS文件，压缩采用uglify-js引擎，多个模块文件打包到一个文件里，减少http请求消耗 :）
 
 - **安装**
-> npm install cutepack -g 
+> npm install cutepack -g  
+> （需要node0.8版本）
 
 - 使用
  > 配置好build.js文件，命令行运行 cutepack build.js
 
- > 下载源码使用方法：直接把源码down下来，依据/test目录下的build.js，修改‘paths’数组为自己相应的需要打包的文件路径，命令行运行node build.js，打包完成，生成build文件。  
+    build.js示例：
+<pre>
+exports.config = {
+    paths:[
+        './test1.js-n', // -n参数，表示 此文件不压缩
+        './test.js'    
+    ],
+    options:{
+        strict_semicolons: false, //设为true时，代码需要写严格的分号
+        mangle_options: {
+            //defines: { DEBUG: ['onename', 'false'], VERSION: ['string', '1.0'] },
+            except:['onename']  // 保留指定的变量名，函数名..不被修改
+        },
+        squeeze_options:{
+        
+        },
+        gen_options: {
+            ascii_only: false,  // pass true if you want to encode non-ASCII characters as \uXXXX.
+            inline_script: false // – pass true to escape occurrences of &lt;/script&gt; in strings
+        }
+    }
+}
+
+paths数组 -- 为需要压缩打包的文件路径列表。路径相对于build.js所在的目录
+options -- 为压缩参数配置，例如保留关键字，转换中文等。没特殊要求，options可以不写
+</pre>
 
 - 局限性
 
