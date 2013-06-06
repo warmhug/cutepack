@@ -8,27 +8,30 @@ cutepack
 
 - **安装**
 > npm install cutepack -g  
-> （需要node0.8版本）
+> （需要node0.8版本）  
+> 老版本cutepack@0.0.1，与最新版本配置差异较大
 
 - 使用
- > 配置好build.js文件，命令行运行 cutepack build.js
-
-    build.js示例：
+ > 配置好cp-config.js文件，命令行运行 cutepack
+    
 <pre>
+cp-config.js示例：
+
 exports.config = {
-    paths:[
-        './test1.js-n', // -n参数，表示 此文件不压缩
-        './test.js'    
-    ],
+    paths:{
+		src:[
+			'./test1.js-n', // -n参数，表示 此文件不压缩
+			'./test.js'    
+		],
+		tar: '../tar.js'  //输出的目标文件
+	},
     options:{
         strict_semicolons: false, //设为true时，代码需要写严格的分号
         mangle_options: {
             //defines: { DEBUG: ['onename', 'false'], VERSION: ['string', '1.0'] },
             except:['onename']  // 保留指定的变量名，函数名..不被修改
         },
-        squeeze_options:{
-        
-        },
+        squeeze_options:{},
         gen_options: {
             ascii_only: false,  // pass true if you want to encode non-ASCII characters as \uXXXX.
             inline_script: false // – pass true to escape occurrences of &lt;/script&gt; in strings
@@ -36,7 +39,8 @@ exports.config = {
     }
 }
 
-paths数组 -- 为需要压缩打包的文件路径列表。路径相对于build.js所在的目录
+说明：  
+paths数组 -- 为需要压缩打包的文件路径列表和目标文件路径。路径相对于cp-config.js所在的目录
 options -- 为压缩参数配置，例如保留关键字，转换中文等。没特殊要求，options可以不写
 </pre>
 
@@ -52,10 +56,16 @@ options -- 为压缩参数配置，例如保留关键字，转换中文等。没
 
     5、没有处理常见的模块依赖。
 
-- change log
-    > build.js中增加options配置项，可指定压缩时不改变某些关键词，转义非ASCII字符为\uXXXX字符形式。 *2012-10-29*
+## change log ##
+- v0.1.0
+> 配置文件名由原来的build.js改为cp-config.js，以便与其他文件做明显区分。*2013/6/6 13:43:06*  
+ 
+> 修改配置文件中paths字段设置。*2013/6/6 13:43:06* 
 
-    > 可配置参数-n，不压缩某文件（例如已经压缩过的文件，不需要重复压缩） 
-      *2012-10-26*
+- v0.0.1 
+> build.js中增加options配置项，可指定压缩时不改变某些关键词，转义非ASCII字符为\uXXXX字符形式。 *2012-10-29*
 
-    > 最初功能实现 *2012-10-22*
+> 可配置参数-n，不压缩某文件（例如已经压缩过的文件，不需要重复压缩） 
+  *2012-10-26*
+
+> 最初功能实现 *2012-10-22*

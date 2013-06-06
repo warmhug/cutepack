@@ -1,6 +1,6 @@
 {
   "name": "cutepack",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "a simple compression and package module",
   "main": "main.js",
   "directories": {

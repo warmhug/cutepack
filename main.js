@@ -11,7 +11,7 @@ _util.uglify = function (orig_code, options) {
     var pro = uglify.uglify;
 
     var ast = jsp.parse(orig_code, options.strict_semicolons); // parse code and get the initial AST
-    ast = pro.ast_mangle(ast, options.mangle_options); // get a new AST with mangled names(去掉，则不修改变量名)
+    ast = pro.ast_mangle(ast, options.mangle_options); // get a new AST with mangled names(鍘绘帀锛屽垯涓嶄慨鏀瑰彉閲忓悕)
     ast = pro.ast_squeeze(ast, options.squeeze_options); // get an AST with compression optimizations
     var final_code = pro.gen_code(ast, options.gen_options); // compressed code here
     return final_code;
@@ -37,12 +37,11 @@ _util.checkPath = function (path) {
 
 }
 _util.pathParse = function (paths, options) {
-    var root = _util.getRoot(), pathobj = '', pat = '', flag = '';
-    for (var i = 0; i < paths.length; i++) {
-        pathobj = _util.checkPath(path.join(root, path.normalize(paths[i])));
+    var root = _util.getRoot(), pathobj = '', pat = '', flag = '', srcs = paths.src;
+    for (var i = 0; i < srcs.length; i++) {
+        pathobj = _util.checkPath(path.join(root, path.normalize(srcs[i])));
         pat = pathobj.path;
         flag = pathobj.flag;
-        //console.log(pathobj);
         if (pat && fs.existsSync(pat)) {
             if (flag && flag === '-n') {
                 compressCode += fs.readFileSync(pat, 'utf8') + '\n';
@@ -53,7 +52,7 @@ _util.pathParse = function (paths, options) {
             continue;
         }
     }
-    _util.createTarget();
+    _util.createTarget(paths.tar);
 }
 _util.compress = function (file, options) {
     var data = fs.readFileSync(file, 'utf8'), code = '';
@@ -64,16 +63,21 @@ _util.compress = function (file, options) {
         return code;
     }
 }
-_util.createTarget = function () {
-    var name = '__build_' + Date.now() + '.js';
-    fs.writeFile('./' + name, compressCode, function (err) {
+_util.createTarget = function (tar) {
+    fs.writeFile('./' + tar, compressCode, function (err) {
         if (err) throw err;
         console.log('build success');
     });
 }
 
 function _build(paths, options) {
-    if (!util.isArray(paths)) return;
+    if (typeof paths.src == 'undefined' || !util.isArray(paths.src)) {
+        consoel.log('璇风‘璁よ缃簡src璺緞锛屽苟涓斾负鏁扮粍绫诲瀷');
+        return;
+    }
+	if(typeof paths.tar == 'undefined' || Array.prototype.toString.call(paths.tar) != '[object String]') {
+		paths.tar = '__build_' + Date.now() + '.js';
+	}
     //
     _util.pathParse(paths, options);
 }
