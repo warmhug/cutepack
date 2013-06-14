@@ -46,7 +46,7 @@ _util.pathParse = function (paths, options) {
             if (flag && flag === '-n') {
                 compressCode += fs.readFileSync(pat, 'utf8') + '\n';
             }else {
-                compressCode += _util.compress(pat, options) + '\n';
+                compressCode += _util.compress(pat, options) + ';\n';
             }
         } else {
             continue;
