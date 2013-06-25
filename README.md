@@ -12,37 +12,48 @@ cutepack
 > 老版本cutepack@0.0.1，与最新版本配置差异较大
 
 - 使用
- > 配置好cp-config.js文件，命令行运行 cutepack
+ > 方法一：配置好默认命名的cp-config.js文件，命令行运行 cutepack  
+ > 方法二：新建自定义命名的文件xxx，命令行运行 cutepack xxx  
     
-<pre>
 cp-config.js示例：
 
-exports.config = {
-    paths:{
-		src:[
-			'./test1.js-n', // -n参数，表示 此文件不压缩
-			'./test.js'    
-		],
-		tar: '../tar.js'  //输出的目标文件
-	},
-    options:{
-        strict_semicolons: false, //设为true时，代码需要写严格的分号
-        mangle_options: {
-            //defines: { DEBUG: ['onename', 'false'], VERSION: ['string', '1.0'] },
-            except:['onename']  // 保留指定的变量名，函数名..不被修改
-        },
-        squeeze_options:{},
-        gen_options: {
-            ascii_only: false,  // pass true if you want to encode non-ASCII characters as \uXXXX.
-            inline_script: false // – pass true to escape occurrences of &lt;/script&gt; in strings
-        }
-    }
-}
+	exports.config = [
+		{
+		    paths:{
+				src:[
+					'./test1.js-n', // -n参数，表示 此文件不压缩
+					'./test.js'    
+				],
+				tar: '../tar.js'  //输出的目标文件
+			}
+		},
+		{
+		    paths:{
+				src:[
+					'./test1.js-n', 
+					'./test.js'    
+				],
+				tar: '../tar.js' 
+			},
+		    options:{
+		        strict_semicolons: false, //设为true时，代码需要写严格的分号
+		        mangle_options: {
+		            //defines: { DEBUG: ['onename', 'false'], VERSION: ['string', '1.0'] },
+		            except:['onename']  // 保留指定的变量名，函数名..不被修改
+		        },
+		        squeeze_options:{},
+		        gen_options: {
+		            ascii_only: false,  // pass true if you want to encode non-ASCII characters as \uXXXX.
+		            inline_script: false // – pass true to escape occurrences of &lt;/script&gt; in strings
+		        }
+		    }
+		}	
+	]
 
 说明：  
-paths数组 -- 为需要压缩打包的文件路径列表和目标文件路径。路径相对于cp-config.js所在的目录
-options -- 为压缩参数配置，例如保留关键字，转换中文等。没特殊要求，options可以不写
-</pre>
+paths数组 -- 为需要压缩打包的文件路径列表和目标文件路径。路径相对于cp-config.js所在的目录  
+options -- 为压缩参数配置，例如保留关键字，转换中文等。没特殊要求，options可以不写  
+
 
 - 局限性
 
@@ -57,6 +68,9 @@ options -- 为压缩参数配置，例如保留关键字，转换中文等。没
     5、没有处理常见的模块依赖。
 
 ## change log ##
+- v0.1.1  
+> 支持多文件打包压缩到不同的目标文件，并兼容前一版本配置参数。2013/6/25 15:34:38    
+
 - v0.1.0  
 
 > 配置文件名由原来的build.js改为cp-config.js，以便与其他文件做明显区分。*2013/6/6 13:43:06*  
