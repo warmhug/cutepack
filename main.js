@@ -52,19 +52,19 @@ _util.pathParse = function (paths, options) {
 _util.compress = function (pat, flag, options) {
     var data = fs.readFileSync(pat, 'utf8'), code = '';
     if (data) {
-		if (flag && flag === '-n') {
-	        code = data + '\n';
-	    }else {
-	        //console.log(_util.compressCode)
-	        code = _util.uglify(data, options) + ';\n';
-	    }
+        if (flag && flag === '-n') {
+            code = data + '\n';
+        }else {
+            //console.log(_util.compressCode)
+            code = _util.uglify(data, options) + ';\n';
+        }
         return code;
     }
 }
 _util.createTarget = function (tar) {
-	var tar = './' + tar
-	fs.writeFileSync(tar, _util.compressCode);
-	console.log('[build success] target file in "' + tar + '"');
+    var tar = './' + tar
+    fs.writeFileSync(tar, _util.compressCode);
+    console.log('[build success] target file in "' + tar + '"');
 }
 
 function _build(paths, options) {
@@ -72,10 +72,10 @@ function _build(paths, options) {
         console.log('请确认设置了src路径，并且为数组类型');
         return;
     }
-	if(typeof paths.tar == 'undefined' || Array.prototype.toString.call(paths.tar) != '[object String]') {
-		paths.tar = '__build_' + Date.now() + '.js';
-	}
-	_util.compressCode = '';
+    if(typeof paths.tar == 'undefined' || Array.prototype.toString.call(paths.tar) != '[object String]') {
+        paths.tar = '__build_' + Date.now() + '.js';
+    }
+    _util.compressCode = '';
     _util.pathParse(paths, options);
 }
 exports.build = _build;
