@@ -1,0 +1,12 @@
+exports.config =
+[
+    {
+        paths:{
+            src:[
+                "./tin.js-n", // 相对build配置文件的路径，-n参数，表示此文件不压缩
+                "./tin1.js"
+            ],
+            tar: "./tar.js"  //输出的目标文件
+        }
+    },
+]

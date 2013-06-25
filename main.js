@@ -4,12 +4,13 @@ var util = require('util'),
     path = require('path'),
     uglify = require('./lib/uglify-js/uglify-js');
 
-var _util = {}, compressCode = '';
+var _util = {'compressCode':''};
 _util.uglify = function (orig_code, options) {
     options || (options = {});
     var jsp = uglify.parser;
     var pro = uglify.uglify;
 
+    //console.log(orig_code,options)
     var ast = jsp.parse(orig_code, options.strict_semicolons); // parse code and get the initial AST
     ast = pro.ast_mangle(ast, options.mangle_options); // get a new AST with mangled names(去掉，则不修改变量名)
     ast = pro.ast_squeeze(ast, options.squeeze_options); // get an AST with compression optimizations
@@ -21,7 +22,7 @@ _util.getRoot = function () {
     return process.cwd();
 }
 _util.checkPath = function (path) {
-    var arr = path.split(/\.js/),arrlen=arr.length, flag = '';
+    var arr = path.split(/\.js/),arrlen = arr.length, flag = '';
     //console.log(arr.length);
     if (arr[0] === '') return;
     if (arrlen > 1 && arr[1] !== '') {
@@ -34,51 +35,47 @@ _util.checkPath = function (path) {
         path: arr[0] + '.js',
         flag: flag
     }
-
 }
 _util.pathParse = function (paths, options) {
-    var root = _util.getRoot(), pathobj = '', pat = '', flag = '', srcs = paths.src;
+    var root = _util.getRoot(), pathobj = '', pat = '', srcs = paths.src;
     for (var i = 0; i < srcs.length; i++) {
         pathobj = _util.checkPath(path.join(root, path.normalize(srcs[i])));
         pat = pathobj.path;
-        flag = pathobj.flag;
         if (pat && fs.existsSync(pat)) {
-            if (flag && flag === '-n') {
-                compressCode += fs.readFileSync(pat, 'utf8') + '\n';
-            }else {
-                compressCode += _util.compress(pat, options) + ';\n';
-            }
+            _util.compressCode += _util.compress(pat, pathobj.flag, options)
         } else {
             continue;
         }
     }
     _util.createTarget(paths.tar);
 }
-_util.compress = function (file, options) {
-    var data = fs.readFileSync(file, 'utf8'), code = '';
-    //console.log(data);
+_util.compress = function (pat, flag, options) {
+    var data = fs.readFileSync(pat, 'utf8'), code = '';
     if (data) {
-        code = _util.uglify(data, options);
-        //console.log(code);
+		if (flag && flag === '-n') {
+	        code = data + '\n';
+	    }else {
+	        console.log(_util.compressCode)
+	        code = _util.uglify(data, options) + ';\n';
+	    }
         return code;
     }
 }
 _util.createTarget = function (tar) {
-    fs.writeFile('./' + tar, compressCode, function (err) {
-        if (err) throw err;
-        console.log('build success');
-    });
+	var tar = './' + tar
+	fs.writeFileSync(tar, _util.compressCode);
+	console.log('[build success] target file in "' + tar + '"');
 }
 
 function _build(paths, options) {
     if (typeof paths.src == 'undefined' || !util.isArray(paths.src)) {
-        consoel.log('请确认设置了src路径，并且为数组类型');
+        console.log('请确认设置了src路径，并且为数组类型');
         return;
     }
 	if(typeof paths.tar == 'undefined' || Array.prototype.toString.call(paths.tar) != '[object String]') {
 		paths.tar = '__build_' + Date.now() + '.js';
 	}
-    //
+	_util.compressCode = '';
     _util.pathParse(paths, options);
 }
 exports.build = _build;
