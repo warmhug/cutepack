@@ -55,7 +55,7 @@ _util.compress = function (pat, flag, options) {
 		if (flag && flag === '-n') {
 	        code = data + '\n';
 	    }else {
-	        console.log(_util.compressCode)
+	        //console.log(_util.compressCode)
 	        code = _util.uglify(data, options) + ';\n';
 	    }
         return code;
